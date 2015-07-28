@@ -16,7 +16,7 @@
     <!-- Hint: use the `asset_url` to reference uploaded assets -->
     <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}">
 
-    <title>Touch Bass</title>
+    <title>Rusic Music</title>
 
     <!--
       Hint: use the `stylesheet_url` or `stylesheet_tag` filters for referencing
@@ -33,7 +33,7 @@
 
           <div class="masthead clearfix">
             <div class="inner">
-              <h1 class="masthead-brand">Touch Bass</h1>
+              <h1 class="masthead-brand">Rusic Music</h1>
               <ul class="nav masthead-nav">
                 {% if current_user %}
                 {{current_user.nickname}}
@@ -84,8 +84,10 @@
       JavaScript files. You can use liquid within js files for referencing other
       assets (images or fonts for example).
     -->
+    <script src="//cdn.jsdelivr.net/jquery/2.1.4/jquery.js"></script>
     <script src="{{ 'script.js' | javascript_url }}"></script>
     <script src="{{ 'global.js' | javascript_url }}"></script>
-    <script src="{{ 'jquery.rest.js' | javascript_url }}"></script>
+    <script src="{{ 'rusicmusic.js' | javascript_url }}"></script>
+    <script src="{{ 'muzak.js' | javascript_url }}"></script>
   </body>
 </html>

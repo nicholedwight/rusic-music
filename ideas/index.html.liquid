@@ -8,19 +8,35 @@
   called within layouts/subdomain.html.liquid. See http://developer.rusic.com/
   for more details.
 -->
+<<<<<<< HEAD
+<div class="inner cover wrapper">
+  <canvas class="visualizer" width="800" height="100"></canvas>
+  <form class="controls">
+      <div>
+        <label for="visual">Visualizer setting</label>
+        <select id="visual" name="visual">
+          <!-- <option value="sinewave">Sinewave</option> -->
+          <option value="frequencybars" selected>Frequency bars</option>
+          <option value="off">Off</option>
+        </select>
+      </div>
+    </form>
+=======
+<div class="music-controls">
+  <button type="button" name="play" id="muzak">MUZAK</button>
+</div>
 <div class="inner cover">
+>>>>>>> 888762c7efe0000a669d531553981c10e79d7880
   <div class="list-group">
-
     <!-- Hint: loop over the ideas in the space using liquid's `for` tag -->
     {% for idea in space.ideas %}
     <div class="card">
-
-
       <div class="card-meta">
         <a href="{{ idea.permalink }}" class="list-group-item">
-        <h4 class="list-group-item-heading">{{ idea.title }} - {{ idea.custom.user }}</h4>
-        <p class="list-group-item-text">{{ idea.content | markdown }}</p>
+          <h4 class="list-group-item-heading">{{ idea.title }} - {{ idea.custom.user }}</h4>
         </a>
+        <div class="list-group-item-text">{{ idea.content | markdown }}</div>
+
       </div>
     </div>
     {% endfor %}
