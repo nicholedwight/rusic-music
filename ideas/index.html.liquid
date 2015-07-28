@@ -15,14 +15,9 @@
     {% for idea in space.ideas %}
     <div class="card">
 
-      <a href="{{ idea.permalink }}" class="list-group-item">
-      {% for image in idea.images %}
-      <span class="thumbnail">
-        <img src="{{ image }}" alt="Image for {{ idea.title }}" style="max-width: 500px" />
-      </span>
-      {% endfor %}
-      </a>
+
       <div class="card-meta">
+        <a href="{{ idea.permalink }}" class="list-group-item">
         <h4 class="list-group-item-heading">{{ idea.title }} - {{ idea.custom.user }}</h4>
         <p class="list-group-item-text">{{ idea.content | markdown }} <br />
           {% if idea.liked? %}
@@ -32,6 +27,7 @@
           {% endif %}
         </p>
         <p data-like-count="{{ idea.id }}">{{ idea.likes_count }}</p>
+        </a>
       </div>
     </div>
     {% endfor %}

@@ -52,6 +52,12 @@ body {
   text-align: center;
   height: 100vh;
   float: left;
+  position: fixed;
+}
+
+.main {
+  width: 70%;
+  float: right;
 }
 
 .header-img {
