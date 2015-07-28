@@ -1,3 +1,15 @@
+// var data = [];
+// for(var i = 0; i < 50000; i++) {
+// 	data[i] = Math.round(255 * Math.random());
+// }
+// var wave = new RIFFWAVE(data);
+// wave.header.sampleRate = 220000;
+// var audio = new Audio(wave.dataURI);
+// audio.play();
+
+/*
+ * We used this: http://codepen.io/matt-west/pen/lAFnx
+ */
 
 rusicMusic = {
 	audioContext: {},
@@ -18,47 +30,50 @@ rusicMusic = {
 	stop: function(event) {
 		this.oscillator.stop(0);
 	},
-	calculateNote: function(value) {
-		return value; 
-	},
-	calculateVolume: function(value) {
-		return value;
-	},
 	calculateFrequency: function(frequency, gain) {
-		this.oscillator.frequency.value = this.calculateNote(frequency);
-		this.gainNode.gain.value = this.calculateVolume(gain);
+		this.oscillator.frequency.value = frequency;
+		this.gainNode.gain.value = gain * 50;
 	},
 	convertStringToNumber: function(string) {
 		var result = "";
 		for(var i = 0; i < string.length; i++) {
 			result += string.charCodeAt(i).toString(10);
-			// console.log(string[i], string.charCodeAt(i), string.charCodeAt(i).toString(10));
 		}
+		result = parseFloat(result.substring(0, 3) + "." + result.substring(4));
 		return result;
 	},
-	convertStringToArray: function(string) {
+	convertStringToFrequencyArray: function(string) {
 		var self = this,
 		    returnArray = [],
-		    words = string.split(" "); // Simple word-splitting
+		    words = string.split(" "); 
 		words.forEach(function(word, index) {
 			returnArray.push(self.convertStringToNumber(word));
 		});
+		return returnArray;
 	},
-	convertArrayToMUSIC: function(array) {
-		var values = [];
-
+	convertStringToVolumeArray: function(string) {
+		var self = this,
+		    returnArray = [],
+		    words = string.split(" "); 
+		words.forEach(function(word, index) {
+			returnArray.push(word.length * 50);
+		});
+		return returnArray;
 	}
 }
 
 window.onload = function() {
 	rusicMusic.init();
 	rusicMusic.play();
-	for(var i = 0; i < 20; i++) {
+
+	var string = "This is really happening.";
+	var words = string.split(" ");
+	var frequencyArray = rusicMusic.convertStringToFrequencyArray(string);
+	var volumeArray = rusicMusic.convertStringToVolumeArray(string);
+	for(var i = 0; i < words.length; i++) {
 		setTimeout(function() {
-			var freq = (255 * Math.random());
-			var gain = (100 * Math.random());
-			rusicMusic.calculateFrequency(freq, 100);
-			console.log(freq, 100);
+			console.log(i, frequencyArray[i], 100);
+			rusicMusic.calculateFrequency(frequencyArray[i], 100);
 		}, 100 * i);
 	}
 }
