@@ -19,14 +19,7 @@
       <div class="card-meta">
         <a href="{{ idea.permalink }}" class="list-group-item">
         <h4 class="list-group-item-heading">{{ idea.title }} - {{ idea.custom.user }}</h4>
-        <p class="list-group-item-text">{{ idea.content | markdown }} <br />
-          {% if idea.liked? %}
-            <a class="js-unlike-idea" data-idea-id="{{ idea.id }}" href="{{ idea.like_link }}">Unlike!</a>
-          {% else %}
-            <a class="js-like-idea" data-idea-id="{{ idea.id }}" href="{{ idea.like_link }}">Like!</a>
-          {% endif %}
-        </p>
-        <p data-like-count="{{ idea.id }}">{{ idea.likes_count }}</p>
+        <p class="list-group-item-text">{{ idea.content | markdown }}</p>
         </a>
       </div>
     </div>
