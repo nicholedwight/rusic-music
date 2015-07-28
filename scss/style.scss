@@ -47,9 +47,10 @@ body {
 }
 
 .masthead {
-  width: 100%;
+  width: 30%;
   background-color: #1abc9c;
   text-align: center;
+  height: 100vh;
 }
 
 .header-img {
@@ -62,7 +63,7 @@ a.create-idea {
   color: #FFF;
   text-shadow: 1px 1px 1px #1c6c7f;
   text-align: center;
-  width: 400px;
+  width: 200px;
   margin: 0 auto;
   margin-bottom: 20px;
   text-transform: uppercase;
