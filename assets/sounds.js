@@ -32,8 +32,8 @@ rusicMusic = {
 		var result = "";
 		for(var i = 0; i < string.length; i++) {
 			result += string.charCodeAt(i).toString(10);
-			// console.log(string[i], string.charCodeAt(i), string.charCodeAt(i).toString(10));
 		}
+		result = result.substring(0, 3) + "." + result.substring(4);
 		return result;
 	},
 	convertStringToArray: function(string) {
