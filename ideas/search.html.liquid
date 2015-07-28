@@ -1,0 +1,19 @@
+<div class="inner cover">
+  <div class="list-group">
+    {% if search.performed? %}
+      <p>
+        {{ search.results_count | pluralize: 'topic' }} found for "{{ search.query }}"
+      </p>
+    {% endif %}
+
+    {% paginate search.results by 10 %}
+      <ul class="results">
+        {% for idea in pagination.collection %}
+        <a href="{{ idea.permalink }}">
+          <li>{{ idea.title }}</li>
+        </a>
+        {% endfor %}
+      </ul>
+    {% endpaginate %}
+  </div>
+</div>

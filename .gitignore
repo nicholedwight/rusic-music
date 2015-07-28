@@ -1,0 +1,7 @@
+/components
+node_modules
+*.sass-cache*
+.rusic.yml
+
+assets/style.css
+assets/script.js

@@ -1,0 +1,6 @@
+logo_url:
+  value: "http://placehold.it/400x200&text=KittyCommittee"
+  help_text: "The URL of the logo to use on your site"
+ga_code:
+  value: ""
+  help_text: "Your Google Anylitics tracking code. Should look something like this UA-12345678-9"

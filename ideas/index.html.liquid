@@ -1,0 +1,39 @@
+<!--
+  ideas/index.html.liquid
+
+  This is the homepage of your space and where you list all your ideas. They
+  can be accessed using `space.ideas`.
+
+  The contents of this template are rendered where `content_for_layout` is
+  called within layouts/subdomain.html.liquid. See http://developer.rusic.com/
+  for more details.
+-->
+<div class="inner cover">
+  <div class="list-group">
+
+    <!-- Hint: loop over the ideas in the space using liquid's `for` tag -->
+    {% for idea in space.ideas %}
+    <div class="card">
+
+      <a href="{{ idea.permalink }}" class="list-group-item">
+      {% for image in idea.images %}
+      <span class="thumbnail">
+        <img src="{{ image }}" alt="Image for {{ idea.title }}" style="max-width: 500px" />
+      </span>
+      {% endfor %}
+      </a>
+      <div class="card-meta">
+        <h4 class="list-group-item-heading">{{ idea.title }} - {{ idea.custom.user }}</h4>
+        <p class="list-group-item-text">{{ idea.content | markdown }} <br />
+          {% if idea.liked? %}
+            <a class="js-unlike-idea" data-idea-id="{{ idea.id }}" href="{{ idea.like_link }}">Unlike!</a>
+          {% else %}
+            <a class="js-like-idea" data-idea-id="{{ idea.id }}" href="{{ idea.like_link }}">Like!</a>
+          {% endif %}
+        </p>
+        <p data-like-count="{{ idea.id }}">{{ idea.likes_count }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

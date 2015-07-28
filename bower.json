@@ -1,0 +1,10 @@
+{
+  "name": "rusic-theme-KittyCommittee",
+  "version": "1.0.0",
+  "private": "true",
+  "dependencies": {
+    "jquery-legacy": "jquery#1.10",
+    "bootstrap": "~3.2.0"
+  }
+}
+
