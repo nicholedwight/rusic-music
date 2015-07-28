@@ -30,15 +30,9 @@ rusicMusic = {
 	stop: function(event) {
 		this.oscillator.stop(0);
 	},
-	calculateNote: function(value) {
-		return value; 
-	},
-	calculateVolume: function(value) {
-		return value;
-	},
 	calculateFrequency: function(frequency, gain) {
-		this.oscillator.frequency.value = this.calculateNote(frequency);
-		this.gainNode.gain.value = this.calculateVolume(gain);
+		this.oscillator.frequency.value = frequency;
+		this.gainNode.gain.value = gain * 50;
 	},
 	convertStringToNumber: function(string) {
 		var result = "";
@@ -48,12 +42,21 @@ rusicMusic = {
 		result = parseFloat(result.substring(0, 3) + "." + result.substring(4));
 		return result;
 	},
-	convertStringToArray: function(string) {
+	convertStringToFrequencyArray: function(string) {
 		var self = this,
 		    returnArray = [],
-		    words = string.split(" "); // Simple word-splitting
+		    words = string.split(" "); 
 		words.forEach(function(word, index) {
 			returnArray.push(self.convertStringToNumber(word));
+		});
+		return returnArray;
+	},
+	convertStringToVolumeArray: function(string) {
+		var self = this,
+		    returnArray = [],
+		    words = string.split(" "); 
+		words.forEach(function(word, index) {
+			returnArray.push(word.length * 50);
 		});
 		return returnArray;
 	}
@@ -62,8 +65,12 @@ rusicMusic = {
 window.onload = function() {
 	rusicMusic.init();
 	rusicMusic.play();
-	var frequencyArray = rusicMusic.convertStringToArray("This is really happening.");
-	for(var i = 0; i < frequencyArray.length; i++) {
+
+	var string = "This is really happening.";
+	var words = string.split(" ");
+	var frequencyArray = rusicMusic.convertStringToFrequencyArray(string);
+	var volumeArray = rusicMusic.convertStringToVolumeArray(string);
+	for(var i = 0; i < words.length; i++) {
 		setTimeout(function() {
 			console.log(i, frequencyArray[i], 100);
 			rusicMusic.calculateFrequency(frequencyArray[i], 100);
