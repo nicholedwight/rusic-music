@@ -1,10 +1,9 @@
 $(document).ready(function(){
 
+
   var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  var analyser = audioCtx.createAnalyser();
   var source;
   var stream;
-  var mute = document.querySelector('.mute');
   var analyser = audioCtx.createAnalyser();
 
   analyser.minDecibels = -90;
@@ -30,33 +29,35 @@ $(document).ready(function(){
     }
     return curve;
   };
+  // grab audio track via XHR for convolver node
+
+var soundSource, concertHallBuffer;
+
+ajaxRequest = new XMLHttpRequest();
+
+ajaxRequest.open('GET', 'http://mdn.github.io/voice-change-o-matic/audio/concert-crowd.ogg', true);
+
+ajaxRequest.responseType = 'arraybuffer';
+
+
+ajaxRequest.onload = function() {
+  var audioData = ajaxRequest.response;
+
+  audioCtx.decodeAudioData(audioData, function(buffer) {
+      concertHallBuffer = buffer;
+      soundSource = audioCtx.createBufferSource();
+      soundSource.buffer = concertHallBuffer;
+    }, function(e){"Error with decoding audio data" + e.err});
+
+  //soundSource.connect(audioCtx.destination);
+  //soundSource.loop = true;
+  //soundSource.start();
+}
+
+ajaxRequest.send();
 
 
   var soundSource, concertHallBuffer;
-
-  // ajaxRequest = new XMLHttpRequest();
-  //
-  // ajaxRequest.open('GET', 'http://mdn.github.io/voice-change-o-matic/audio/concert-crowd.ogg', true);
-  //
-  // ajaxRequest.responseType = 'arraybuffer';
-  //
-  //
-  // ajaxRequest.onload = function() {
-  //   var audioData = ajaxRequest.response;
-  //
-  //   audioCtx.decodeAudioData(audioData, function(buffer) {
-  //       concertHallBuffer = buffer;
-  //       soundSource = audioCtx.createBufferSource();
-  //       soundSource.buffer = concertHallBuffer;
-  //     }, function(e){"Error with decoding audio data" + e.err});
-  //
-  //   //soundSource.connect(audioCtx.destination);
-  //   //soundSource.loop = true;
-  //   //soundSource.start();
-  // }
-  //
-  // ajaxRequest.send();
-
 
   var canvas = document.querySelector('.visualizer');
   console.log(canvas);
@@ -72,16 +73,11 @@ $(document).ready(function(){
 
   //main block for doing the audio recording
 
-  if (navigator.mediaDevices.getUserMedia) {
+  // if (navigator.mediaDevices.getUserMedia) {
      console.log('getUserMedia supported.');
-     navigator.mediaDevices.getUserMedia (
-        // constraints - only audio needed for this app
-        {
-           audio: true
-        },
+     var constraints = {audio: true};
+     navigator.mediaDevices.getUserMedia (constraints).then(function(stream) {
 
-        // Success callback
-        function(stream) {
            source = audioCtx.createMediaStreamSource(stream);
            source.connect(analyser);
            analyser.connect(distortion);
@@ -89,24 +85,14 @@ $(document).ready(function(){
            biquadFilter.connect(convolver);
            convolver.connect(gainNode);
            gainNode.connect(audioCtx.destination);
-
+          //
            visualize();
 
-        },
-
-        // Error callback
-        function(err) {
-           console.log('The following gUM error occured: ' + err);
-        }
-     );
-  } else {
-     console.log('getUserMedia not supported on your browser!');
-  }
+        });
 
   function visualize() {
     WIDTH = canvas.width;
     HEIGHT = canvas.height;
-
 
     var visualSetting = visualSelect.value;
     console.log(visualSetting);
@@ -123,6 +109,7 @@ $(document).ready(function(){
 
         analyser.getByteFrequencyData(dataArray);
 
+        canvasCtx.beginPath();
         canvasCtx.fillStyle = 'rgb(0, 0, 0)';
         canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
@@ -132,7 +119,6 @@ $(document).ready(function(){
 
         for(var i = 0; i < bufferLength; i++) {
           barHeight = dataArray[i];
-
           canvasCtx.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
           canvasCtx.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
 
@@ -143,13 +129,4 @@ $(document).ready(function(){
       draw();
 
   }
-
-
-  // event listeners to change visualize and voice settings
-
-  visualSelect.onchange = function() {
-    // window.cancelAnimationFrame(drawVisual);
-    visualize();
-  }
-
 });
