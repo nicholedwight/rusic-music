@@ -48,7 +48,7 @@ body {
 
 .masthead {
   width: 30%;
-  background-color: #1abc9c;
+  background-color: #fc0;
   text-align: center;
   height: 100vh;
 }
@@ -58,7 +58,7 @@ body {
 }
 
 a.create-idea {
-  background-color: #24889f;
+  background-color: darken(#fc0, 20%);
   border-radius: 6px;
   color: #FFF;
   text-shadow: 1px 1px 1px #1c6c7f;
