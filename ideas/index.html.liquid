@@ -8,9 +8,19 @@
   called within layouts/subdomain.html.liquid. See http://developer.rusic.com/
   for more details.
 -->
-<div class="inner cover">
+<div class="inner cover wrapper">
+  <canvas class="visualizer" width="800" height="100"></canvas>
+  <form class="controls">
+      <div>
+        <label for="visual">Visualizer setting</label>
+        <select id="visual" name="visual">
+          <!-- <option value="sinewave">Sinewave</option> -->
+          <option value="frequencybars" selected>Frequency bars</option>
+          <option value="off">Off</option>
+        </select>
+      </div>
+    </form>
   <div class="list-group">
-
     <!-- Hint: loop over the ideas in the space using liquid's `for` tag -->
     {% for idea in space.ideas %}
     <div class="card">
