@@ -1,3 +1,15 @@
+// var data = [];
+// for(var i = 0; i < 50000; i++) {
+// 	data[i] = Math.round(255 * Math.random());
+// }
+// var wave = new RIFFWAVE(data);
+// wave.header.sampleRate = 220000;
+// var audio = new Audio(wave.dataURI);
+// audio.play();
+
+/*
+ * We used this: http://codepen.io/matt-west/pen/lAFnx
+ */
 
 rusicMusic = {
 	audioContext: {},
@@ -33,7 +45,7 @@ rusicMusic = {
 		for(var i = 0; i < string.length; i++) {
 			result += string.charCodeAt(i).toString(10);
 		}
-		result = result.substring(0, 3) + "." + result.substring(4);
+		result = parseFloat(result.substring(0, 3) + "." + result.substring(4));
 		return result;
 	},
 	convertStringToArray: function(string) {
@@ -43,22 +55,18 @@ rusicMusic = {
 		words.forEach(function(word, index) {
 			returnArray.push(self.convertStringToNumber(word));
 		});
-	},
-	convertArrayToMUSIC: function(array) {
-		var values = [];
-
+		return returnArray;
 	}
 }
 
 window.onload = function() {
 	rusicMusic.init();
 	rusicMusic.play();
-	for(var i = 0; i < 20; i++) {
+	var frequencyArray = rusicMusic.convertStringToArray("This is really happening.");
+	for(var i = 0; i < frequencyArray.length; i++) {
 		setTimeout(function() {
-			var freq = (255 * Math.random());
-			var gain = (100 * Math.random());
-			rusicMusic.calculateFrequency(freq, 100);
-			console.log(freq, 100);
+			console.log(i, frequencyArray[i], 100);
+			rusicMusic.calculateFrequency(frequencyArray[i], 100);
 		}, 100 * i);
 	}
 }
