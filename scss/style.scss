@@ -80,7 +80,7 @@ a.create-idea {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .list-group-iten {
@@ -90,6 +90,7 @@ a.create-idea {
 
 .card {
   padding: 0 10px;
+  max-width: 550px;
 }
 
 .card-meta {
