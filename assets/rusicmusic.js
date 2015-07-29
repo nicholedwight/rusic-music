@@ -60,7 +60,6 @@ ajaxRequest.send();
   var soundSource, concertHallBuffer;
 
   var canvas = document.querySelector('.visualizer');
-  console.log(canvas);
   var canvasCtx = canvas.getContext("2d");
 
   var intendedWidth = document.querySelector('.wrapper').clientWidth;
@@ -74,7 +73,6 @@ ajaxRequest.send();
   //main block for doing the audio recording
 
   // if (navigator.mediaDevices.getUserMedia) {
-     console.log('getUserMedia supported.');
      var constraints = {audio: true};
      navigator.mediaDevices.getUserMedia (constraints).then(function(stream) {
 
@@ -95,11 +93,9 @@ ajaxRequest.send();
     HEIGHT = canvas.height;
 
     var visualSetting = visualSelect.value;
-    console.log(visualSetting);
 
       analyser.fftSize = 256;
       var bufferLength = analyser.frequencyBinCount;
-      console.log(bufferLength);
       var dataArray = new Uint8Array(bufferLength);
 
       canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);

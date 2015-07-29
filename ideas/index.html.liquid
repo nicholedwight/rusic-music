@@ -20,9 +20,6 @@
         </select>
       </div>
     </form>
-<div class="music-controls">
-  <button type="button" name="play" id="muzak">MUZAK</button>
-</div>
 <div class="inner cover">
   <div class="list-group">
     <!-- Hint: loop over the ideas in the space using liquid's `for` tag -->
@@ -31,9 +28,9 @@
       <div class="card-meta">
         <a href="{{ idea.permalink }}" class="list-group-item">
           <h4 class="list-group-item-heading">{{ idea.title }} - {{ idea.custom.user }}</h4>
+          <a data-play-that-funky-music-white-boy href="#">Play</a>
         </a>
         <div class="list-group-item-text">{{ idea.content | markdown }}</div>
-
       </div>
     </div>
     {% endfor %}

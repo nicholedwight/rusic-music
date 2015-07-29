@@ -1,14 +1,5 @@
-// var data = [];
-// for(var i = 0; i < 50000; i++) {
-// 	data[i] = Math.round(255 * Math.random());
-// }
-// var wave = new RIFFWAVE(data);
-// wave.header.sampleRate = 220000;
-// var audio = new Audio(wave.dataURI);
-// audio.play();
-
 /*
- * We used this: http://codepen.io/matt-west/pen/lAFnx
+ * With snippets o' this: http://codepen.io/matt-west/pen/lAFnx
  */
 
 rusicMusic = {
@@ -18,28 +9,35 @@ rusicMusic = {
 	init: function() {
 		window.AudioContext = window.AudioContext || window.webkitAudioContext;
 		this.audioContext = new window.AudioContext();
-	},
-	play: function(e) {
 		this.oscillator = this.audioContext.createOscillator();
-		this.oscillator.type = "triangle";
+		this.oscillator.type = "sine";
 		this.gainNode = this.audioContext.createGain();
 		this.gainNode.connect(this.audioContext.destination);
 		this.oscillator.connect(this.gainNode);
 		this.oscillator.start(0);
+		this.silence();
 	},
-	stop: function(event) {
-		this.oscillator.stop(0);
+	play: function() {
+		this.audioContext.resume();
+	},
+	stop: function() {
+		this.audioContext.suspend();
+	},
+	silence: function() {
+		this.oscillator.frequency.value = 0;
+		this.gainNode.gain.value = 0;
 	},
 	calculateFrequency: function(frequency, gain) {
 		this.oscillator.frequency.value = frequency;
-		this.gainNode.gain.value = gain * 50;
+		this.gainNode.gain.value = gain;
+		console.log(frequency, gain);
 	},
 	convertStringToNumber: function(string) {
-		var result = "";
+		var result = 0;
 		for(var i = 0; i < string.length; i++) {
-			result += string.charCodeAt(i).toString(10);
+			result = result + parseInt(string.charCodeAt(i).toString(10));
 		}
-		result = parseFloat(result.substring(0, 3) + "." + result.substring(4));
+		result = ((parseFloat(result) / 1000.000) * 800) + 200; // 1000 (nice limit); 800 (Hertz range); 200 (Hertz offset)
 		return result;
 	},
 	convertStringToFrequencyArray: function(string) {
@@ -56,30 +54,30 @@ rusicMusic = {
 		    returnArray = [],
 		    words = string.split(" ");
 		words.forEach(function(word, index) {
-			returnArray.push(word.length * 50);
+			returnArray.push(word.length / 10);
 		});
 		return returnArray;
 	},
 	doTheLoopDammit: function(i, frequencyArray, volumeArray) {
-	 setTimeout(function() {
-			console.log(i, frequencyArray[i], volumeArray[i]);
+	 audioLoop = setTimeout(function() {
 			rusicMusic.calculateFrequency(frequencyArray[i], volumeArray[i]);
 			if (i === (frequencyArray.length - 1)) {
-				console.log('stopping');
-				rusicMusic.stop();
+				setTimeout(function() {
+					rusicMusic.silence();
+				}, 500);
 			}
-		}, 1000 * i);
+		}, 500 * i);
 	 }
 }
 
-$('#muzak').on('click', function() {
-	console.log('whut');
-	rusicMusic.init();
-	rusicMusic.play();
+rusicMusic.init();
+rusicMusic.play();
 
-	var content = $('.list-group .list-group-item-text').eq(0);
-	content = content.text();
-	console.log(content);
+
+$(document).on("click", "[data-play-that-funky-music-white-boy]", function(e) {
+	e.preventDefault();
+
+	var content = $(this).closest(".card").find(".list-group-item-text").text();
 
 	var frequencyArray = rusicMusic.convertStringToFrequencyArray(content);
 	var volumeArray = rusicMusic.convertStringToVolumeArray(content);
