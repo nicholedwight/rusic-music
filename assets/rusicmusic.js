@@ -73,20 +73,25 @@ ajaxRequest.send();
   //main block for doing the audio recording
 
   // if (navigator.mediaDevices.getUserMedia) {
-     var constraints = {audio: true};
-     navigator.mediaDevices.getUserMedia (constraints).then(function(stream) {
-
-           source = audioCtx.createMediaStreamSource(stream);
-           source.connect(analyser);
-           analyser.connect(distortion);
-           distortion.connect(biquadFilter);
-           biquadFilter.connect(convolver);
-           convolver.connect(gainNode);
-           gainNode.connect(audioCtx.destination);
-          //
-           visualize();
-
-        });
+  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+  if(navigator.getUserMedia) {
+    navigator.getUserMedia(
+      { audio: true }, 
+      function(stream) {
+        source = audioCtx.createMediaStreamSource(stream);
+        source.connect(analyser);
+        analyser.connect(distortion);
+        distortion.connect(biquadFilter);
+        biquadFilter.connect(convolver);
+        convolver.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        visualize();
+      }, 
+      function() {
+        return false;
+      }
+    );
+  }
 
   function visualize() {
     WIDTH = canvas.width;
